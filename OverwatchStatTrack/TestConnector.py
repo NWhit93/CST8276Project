@@ -1,4 +1,5 @@
 import pyrebase
+import requests
 
 config = {
     "apiKey" : "AIzaSyDg_XVDSQJ5q3_V3F5pWvqLNHlDKwZXDZY",
@@ -22,12 +23,19 @@ for hero in heroes:
     print(hero.key())
     print(hero.val())
 
-heroes = db.child("Heroes").shallow().get()
-print(heroes.val())
-print(type(heroes))
-for a in heroes:
-    h = db.child(a).get()
-    print(h.val())
+URL = "https://best-overwatch-api.herokuapp.com/player/pc/us/Jeh0vah-1531"
+
+r = requests.get(url = URL)
+
+data = r.json()
+db.child("Players").push(data)
+
+# heroes = db.child("Heroes").shallow().get()
+# print(heroes.val())
+# print(type(heroes))
+# for a in heroes:
+#     h = db.child(a).get()
+#     print(h.val())
 
 # print("Database returned:")
 # print(printList)
