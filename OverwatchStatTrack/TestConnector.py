@@ -40,3 +40,4 @@ db.child("Players").push(data)
 # print("Database returned:")
 # print(printList)
 # print("Done")
+# Nathen eat bugs 
