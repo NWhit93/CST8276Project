@@ -19,11 +19,13 @@ db = firebase.database()
 # db.child('Heroes').push(data)
 
 heroes = db.child("Heroes").get()
+
 for hero in heroes:
     print(hero.key())
     print(hero.val())
 
-URL = "https://best-overwatch-api.herokuapp.com/player/pc/us/Jeh0vah-1531"
+#URL = "https://best-overwatch-api.herokuapp.com/player/pc/us/Jeh0vah-1531"
+URL = "https://ow-api.com/v1/stats/pc/us/Azulon-1178/complete"
 
 r = requests.get(url = URL)
 
