@@ -1,3 +1,4 @@
+from pyasn1.type.univ import Integer
 import FirebaseConnector
 from View import StatView
 
@@ -20,11 +21,35 @@ class StatController():
         if (self.Connector.PrepareURLGetAll(user)):
             if (self.Confirm(self.View.ConfirmUpdate())):
                 # Delete object with current username and store it again from a fresh api pull
-                None
+                self.Connector.DeleteRecord(user)
+                self.Connector.PrepareURLGetAll(user)
             else:
                 return
 
+    
+    def GetBestCareerStats(self):
+        allPlayers = self.Connector.FindAllPlayers()
+        currentPlayers = []
+        i = 1
+        for player in allPlayers.each():
+            self.View.PrintPlayerName(i, player.val()['name'])
+            i += 1
+            currentPlayers.append(player)
+        choice = int(self.View.SelectPlayer())
 
+        choice -= 1
+        j = 0
+        for p in currentPlayers:
+            if (j == choice):
+                playerKey = p.key()
+                break
+            else:
+                j += 1
+        
+        p = self.Connector.GetBestCareerStats(playerKey)
+        self.View.PrintBestCareerStats(p.val())
+
+        
     def GetMostPlayedHero(self):
         None
 
@@ -43,6 +68,10 @@ class StatController():
     def EvaluateUserOption(self, choice):
         if choice == "1":
             self.GetPlayerStats()
+        if choice == "2":
+            self.GetBestCareerStats()
+        if choice.lower() == "x":
+            self.isRunning = False
         else:
             print("Please enter a valid option")
             return

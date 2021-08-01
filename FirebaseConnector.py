@@ -35,12 +35,31 @@ class DBConnector():
         self.db.child("Players").push(data)
 
 
+    def FindAllPlayers(self):
+        return self.db.child("Players").order_by_child("name").get()
+
+
     def AccountStatExists(self, userName):
+        try:
+            players = self.db.child("Players").get()
+            userName = userName.replace("-", "#")
+            for player in players.each():
+                if player.val()['name'] == userName:
+                    return True
+            return False
+        except:
+            return False
+    
+
+    def DeleteRecord(self, userName):
         players = self.db.child("Players").get()
         userName = userName.replace("-", "#")
         for player in players.each():
-            if player.val()['name'] == userName:
-                return True
-        return False
+                if player.val()['name'] == userName:
+                    key = player.key()
 
-        #self.db.child("Players").order_by_child("name").get()
+        self.db.child("Players").child(key).remove()
+
+
+    def GetBestCareerStats(self, playerKey):
+        return self.db.child("Players").child(playerKey).child("quickPlayStats").child("careerStats").child("allHeroes").child("best").get()       
