@@ -3,8 +3,7 @@ class StatViews():
     def Menu(self):
         return input("\n1) Find player info\n"
         + "2) Display best career stats\n"
-        + "3) Display most played hero\n"
-        + "4) Compare win rate\n"
+        + "3) Compare win rate\n"
         + "x) Exit\n")
 
 
@@ -29,4 +28,9 @@ class StatViews():
 
         print("\n")
         for item in statList:
-            print(item + " " + str(stats[item]))      
+            print(item + " " + str(stats[item]))
+
+
+    def PrintWinRates(self, winRates):
+        for key, value in winRates.items():
+            print("\n" + key + " -- Win " + "%.2f" %value + "%")

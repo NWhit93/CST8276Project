@@ -35,8 +35,8 @@ class StatController():
             self.View.PrintPlayerName(i, player.val()['name'])
             i += 1
             currentPlayers.append(player)
-        choice = int(self.View.SelectPlayer())
 
+        choice = int(self.View.SelectPlayer())
         choice -= 1
         j = 0
         for p in currentPlayers:
@@ -49,13 +49,22 @@ class StatController():
         p = self.Connector.GetBestCareerStats(playerKey)
         self.View.PrintBestCareerStats(p.val())
 
-        
-    def GetMostPlayedHero(self):
-        None
-
     
     def CompareWinRate(self):
-        None
+        allPlayers = self.Connector.FindAllPlayers()
+        currentPlayers = {}
+
+        for player in allPlayers.each():
+            playerKey = player.key()
+            games = self.Connector.GetWins(playerKey)
+            gameWins = games.val()['won']
+            gameTotal = games.val()['played']
+
+            winRate = (int(gameWins)/int(gameTotal)) * 100
+
+            currentPlayers[player.val()['name']] = winRate
+
+        self.View.PrintWinRates(currentPlayers)   
 
 
     def Confirm(self, option):
@@ -68,9 +77,11 @@ class StatController():
     def EvaluateUserOption(self, choice):
         if choice == "1":
             self.GetPlayerStats()
-        if choice == "2":
+        elif choice == "2":
             self.GetBestCareerStats()
-        if choice.lower() == "x":
+        elif choice == "3":
+            self.CompareWinRate()
+        elif choice.lower() == "x":
             self.isRunning = False
         else:
             print("Please enter a valid option")

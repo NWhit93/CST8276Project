@@ -62,4 +62,8 @@ class DBConnector():
 
 
     def GetBestCareerStats(self, playerKey):
-        return self.db.child("Players").child(playerKey).child("quickPlayStats").child("careerStats").child("allHeroes").child("best").get()       
+        return self.db.child("Players").child(playerKey).child("quickPlayStats").child("careerStats").child("allHeroes").child("best").get()
+
+
+    def GetWins(self, playerKey):
+        return self.db.child("Players").child(playerKey).child("quickPlayStats").child("games").get()        
