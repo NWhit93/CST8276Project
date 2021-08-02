@@ -1,5 +1,6 @@
 from pyasn1.type.univ import Integer
 import FirebaseConnector
+import PySimpleGUI as psg
 from View import StatView
 
 class StatController():
@@ -11,6 +12,8 @@ class StatController():
     def ProgramStart(self):
         self.Connector.ConnectToDatabase()
         self.isRunning = True
+
+        self.StartWindow()
         while(self.isRunning):
             userOption = self.View.Menu()
             self.EvaluateUserOption(userOption)
@@ -74,6 +77,33 @@ class StatController():
             return False
 
 
+    # GUI Menu
+    def StartWindow(self):
+        menuWindow = self.View.window
+        findPlayerWindow = None
+
+        while True:
+            #event, values = self.View.window.read()
+            window, event, values = psg.read_all_windows()
+            if event == "Exit" or event == psg.WIN_CLOSED:
+                break
+            elif event == "Find player info" and not findPlayerWindow:
+                menuWindow.hide()
+                findPlayerWindow = self.MakeFindPlayerWindow().read()
+                # Switch to new window with textbox input
+            elif event == "Find":
+                userName = values['account']
+                print(userName)
+
+        
+        self.View.window.close()
+
+
+    def MakeFindPlayerWindow(self):
+        return psg.Window("Find Player", self.View.findPlayerLayout)
+
+
+    # Console Menu
     def EvaluateUserOption(self, choice):
         if choice == "1":
             self.GetPlayerStats()

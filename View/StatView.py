@@ -1,4 +1,36 @@
+import PySimpleGUI as psg
+
 class StatViews():
+
+    def __init__(self):
+        #PySimpleGUI.Window(title="Stat Tracker", layout=[[]], margins=(500, 350)).read()
+        layout = [
+            [psg.Text("Menu")], 
+            [psg.Button("Find player info")], 
+            [psg.Button("Display best career stats")], 
+            [psg.Button("Compare win rate")], 
+            [psg.Button("Exit")]
+            ]
+
+        self.findPlayerLayout = [
+            [psg.Text("Find a player")],
+            [psg.T("Enter an account *XXXX-1111*"), psg.In(default_text='',size=(60,1), key='account', do_not_clear=True)],
+            [psg.Button("Back")],
+            [psg.Button("Find")]
+        ]
+
+        self.window = psg.Window("Stat Tracker", layout, finalize=True)
+        #self.findPlayerWindow = psg.Window("Find Player", findPlayerLayout)
+
+
+    def CreateWindow(self):
+        while True:
+            event, values = self.window.read()
+            if event == "Exit" or event == psg.WIN_CLOSED:
+                break
+        
+        self.window.close()
+
 
     def Menu(self):
         return input("\n1) Find player info\n"
